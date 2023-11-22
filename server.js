@@ -201,8 +201,9 @@ app.delete('/api/books/:id', async (req, res) => {
         }
         res.json({ message: "书籍已删除" });
     } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+    console.error(error); // 在服务器端打印错误信息
+    res.status(500).json({ message: error.message });
+}
 });
 //logout
 app.post('/logout', (req, res) => {
