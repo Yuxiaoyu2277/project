@@ -179,15 +179,19 @@ app.get('/api/books', async (req, res) => {
 //update
 app.put('/api/books/:id', async (req, res) => {
     try {
-        const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const bookId = req.params.id; // 从 URL 获取书籍的 id
+        const updatedBook = await Book.findOneAndUpdate({ id: bookId }, req.body, { new: true });
+        
         if (!updatedBook) {
             return res.status(404).json({ message: "书籍未找到" });
         }
+        
         res.json(updatedBook);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
+
 //删除
 app.delete('/api/books/:id', async (req, res) => {
     try {
