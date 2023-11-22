@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f5f5dc;
+            /* 米黄色背景 */
+            font-family: 'Roboto', sans-serif;
+            /* 更优雅的字体 */
+        }
+
+        .container {
+            max-width: 600px;
+            /* 更窄的容器，以便于阅读 */
+            margin-top: 50px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* 轻微的阴影效果 */
+        }
+
+        h2 {
+            color: #333;
+            /* 深色标题 */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: #4a69bd;
+            /* 更深的蓝色 */
+        }
+
+        .btn-success {
+            background-color: #78e08f;
+            /* 更亮的绿色 */
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-custom {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+        }
+
+        .navbar {
+            background-color: #4a69bd;
+            /* 设定为蓝色 */
+        }
+
+        /* 导航栏中文字的颜色（如果需要）*/
+        /* 使用更具体的选择器来覆盖 Bootstrap 的默认样式 */
+        .navbar.navbar-expand-lg {
+            background-color: #4a69bd !important;
+            /* 使用 !important 确保覆盖 */
+        }
+
+        .navbar-brand {
+            color: white !important;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center">
+        <div class="navbar-brand centered-title">Library Books Management System</div>
+    </nav>
+    <div class="container">
+        <h2>Login</h2>
+        <form action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+
+
+
+        <h2 class="mt-4">Register</h2>
+        <form action="/register" method="post">
+            <div class="form-group">
+                <label for="newUsername">Username</label>
+                <input type="text" class="form-control" id="newUsername" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="newPassword">Password</label>
+                <input type="password" class="form-control" id="newPassword" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-success">Register</button>
+        </form>
+    </div>
+
+
+
+
+    <% if (typeof message !=='undefined' && message) { %>
+        <div class="message">
+            <p>
+                <%= message %>
+            </p>
+            <% if (messageType==='login' ) { %>
+                <a href="/home" class="btn btn-primary btn-custom">Go to Home</a>
+                <% } %>
+        </div>
+        <% } %>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
