@@ -195,16 +195,16 @@ app.put('/api/books/:id', async (req, res) => {
 //删除
 app.delete('/api/books/:id', async (req, res) => {
     try {
-        const deletedBook = await Book.findByIdAndDelete(req.params.id);
+        const deletedBook = await Book.findOneAndDelete({ id: req.params.id });
         if (!deletedBook) {
             return res.status(404).json({ message: "书籍未找到" });
         }
         res.json({ message: "书籍已删除" });
     } catch (error) {
-    console.error(error); // 在服务器端打印错误信息
-    res.status(500).json({ message: error.message });
-}
+        res.status(500).json({ message: error.message });
+    }
 });
+
 //logout
 app.post('/logout', (req, res) => {
     // Assuming you are using express-session or similar for session management
