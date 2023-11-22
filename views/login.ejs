@@ -12,25 +12,20 @@
     <style>
         body {
             background-color: #f5f5dc;
-            /* 米黄色背景 */
             font-family: 'Roboto', sans-serif;
-            /* 更优雅的字体 */
         }
 
         .container {
             max-width: 600px;
-            /* 更窄的容器，以便于阅读 */
             margin-top: 50px;
             background: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            /* 轻微的阴影效果 */
         }
 
         h2 {
             color: #333;
-            /* 深色标题 */
             text-align: center;
             margin-bottom: 30px;
         }
@@ -51,12 +46,10 @@
 
         .btn-primary {
             background-color: #4a69bd;
-            /* 更深的蓝色 */
         }
 
         .btn-success {
             background-color: #78e08f;
-            /* 更亮的绿色 */
         }
 
         .message {
@@ -72,16 +65,10 @@
 
         .navbar {
             background-color: #4a69bd;
-            /* 设定为蓝色 */
         }
-
-        /* 导航栏中文字的颜色（如果需要）*/
-        /* 使用更具体的选择器来覆盖 Bootstrap 的默认样式 */
         .navbar.navbar-expand-lg {
             background-color: #4a69bd !important;
-            /* 使用 !important 确保覆盖 */
         }
-
         .navbar-brand {
             color: white !important;
         }
@@ -108,9 +95,6 @@
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
 
-
-
-
         <h2 class="mt-4">Register</h2>
         <form action="/register" method="post">
             <div class="form-group">
@@ -124,10 +108,6 @@
             <button type="submit" class="btn btn-success">Register</button>
         </form>
     </div>
-
-
-
-
     <% if (typeof message !=='undefined' && message) { %>
         <div class="message">
             <p>
