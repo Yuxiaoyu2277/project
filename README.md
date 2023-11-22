@@ -21,8 +21,8 @@ Through the login interface, the user can enter a username and password that hav
 
 Of course, we also prepared some test accounts for debuggers to test accounts. You can use the following format to login.
 {	"_id":{"$oid":"655bddd6847270c99600d6cc"},
-	"username":"2277236944",
- 	"password":"2277236944",
+	"username":"admin",
+ 	"password":"admin",
   	"__v":{"$numberInt":"0"}
    }
 
