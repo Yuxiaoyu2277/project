@@ -84,10 +84,12 @@ Create operation is post request, and all information is in body of request.
 ********************************************
 # Restful
 In this project, there are three HTTP request types, post, get and delete.
-- Post 
-	Post request is used for insert.
-	Path URL: /api/item/restaurantID/:restaurantID
-	Test: curl -X POST -H "Content-Type: application/json" --data '{"name": "Taro & Tea", "restaurangID":"00000004"}'localhost:8099/api/item/restaurantID/00000004/name/Taro & Tea
+-POST Request - Add New Book
+-	Purpose: Used to add a new book record to the database.
+	Path URL: /api/books
+	Request Example: Use curl to send a POST request to add a new book.
+Test：curl -X POST -H "Content-Type: application/json" --data '{"id":"001", "name":"New Book Title", "author":"Author Name"}' https://s381f-project-group85-library-books.onrender.com/api/books
+
 
 - Get
 	Get request is used for find.
