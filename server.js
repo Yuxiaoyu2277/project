@@ -1,16 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const User = require('./models/User'); // 确保路径正确
+const User = require('./models/User'); 
 const Book = require('./models/book');
 const app = express();
 
 
 
-app.use(express.json()); // 用于解析 JSON 请求体
+app.use(express.json());
 
 mongoose.connect('mongodb+srv://PROJECT:2277236944@cluster0.0cxwsd6.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.on('error', console.error.bind(console, 'MongoDB 连接错误：'));
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB Connection error：'));
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -18,21 +18,17 @@ app.use(session({ secret: 'your secret key', resave: false, saveUninitialized: f
 
 app.set('view engine', 'ejs');
 
-// 登录页面路由
 app.get('/', (req, res) => {
-    res.render('login', { message: null }); // 确保传递 message 变量
+    res.render('login', { message: null });
 });
 
-// 注册功能的路由
 app.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
-        // 检查用户是否已存在
         const existingUser = await User.findOne({ username });
         if (existingUser) {
             return res.render('login', { message: 'User already exists', messageType: 'error' });
         }
-        // 创建新用户
         const newUser = new User({ username, password });
         await newUser.save();
         res.render('login', { message: 'User registered successfully', messageType: 'register' });
@@ -41,8 +37,6 @@ app.post('/register', async (req, res) => {
         res.render('login', { message: 'Error occurred during registration', messageType: 'error' });
     }
 });
-
-
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -51,7 +45,7 @@ app.post('/login', async (req, res) => {
             return res.render('login', { message: 'User not found', messageType: 'error' });
         }
         if (password === user.password) {
-            req.session.username = user.username; // 保存用户名到会话中
+            req.session.username = user.username;
             res.render('home', { username: user.username, books: [] });
         } else {
             res.render('login', { message: 'Invalid username or password', messageType: 'error' });
