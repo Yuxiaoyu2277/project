@@ -84,8 +84,6 @@ app.get('/search-book', async (req, res) => {
 app.post('/add-book', async (req, res) => {
     try {
         const { id, name, author } = req.body;
-
-        // 检查 id 是否为空
         if (!id) {
             return res.render('home', { 
                 username: req.session.username, 
@@ -93,8 +91,6 @@ app.post('/add-book', async (req, res) => {
                 message: 'Book ID is required.'
             });
         }
-
-        // 检查是否已存在具有相同 id 的书籍
         const existingBook = await Book.findOne({ id });
         if (existingBook) {
             return res.render('home', { 
@@ -103,8 +99,6 @@ app.post('/add-book', async (req, res) => {
                 message: 'Book ID already exists.' 
             });
         }
-
-        // 创建新书籍
         const newBook = new Book({ id, name, author });
         await newBook.save();
         const books = await Book.find({});
@@ -122,7 +116,6 @@ app.post('/add-book', async (req, res) => {
     }
 });
 
-// 删除书籍的路由
 app.post('/delete-book/:id', async (req, res) => {
     try {
         await Book.deleteOne({ id: req.params.id });
@@ -149,9 +142,6 @@ app.post('/update-book/:id', async (req, res) => {
     }
 });
 
-
-
-//创建数据库
 app.post('/api/books', async (req, res) => {
     try {
         const newBook = new Book(req.body);
@@ -170,14 +160,13 @@ app.get('/api/books', async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
-//update
 app.put('/api/books/:id', async (req, res) => {
     try {
-        const bookId = req.params.id; // 从 URL 获取书籍的 id
+        const bookId = req.params.id; 
         const updatedBook = await Book.findOneAndUpdate({ id: bookId }, req.body, { new: true });
         
         if (!updatedBook) {
-            return res.status(404).json({ message: "书籍未找到" });
+            return res.status(404).json({ message: "Books cannot find" });
         }
         
         res.json(updatedBook);
@@ -185,15 +174,13 @@ app.put('/api/books/:id', async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
-
-//删除
 app.delete('/api/books/:id', async (req, res) => {
     try {
         const deletedBook = await Book.findOneAndDelete({ id: req.params.id });
         if (!deletedBook) {
-            return res.status(404).json({ message: "书籍未找到" });
+            return res.status(404).json({ message: "Books cannot find" });
         }
-        res.json({ message: "书籍已删除" });
+        res.json({ message: "Book is delete form database" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -201,13 +188,12 @@ app.delete('/api/books/:id', async (req, res) => {
 
 //logout
 app.post('/logout', (req, res) => {
-    // Assuming you are using express-session or similar for session management
     req.session.destroy((err) => {
         if (err) {
             console.error(err);
-            // Optionally handle the error, perhaps redirect to an error page
+           
         } else {
-            res.redirect('/'); // Redirect to the login page
+            res.redirect('/'); 
         }
     });
 });
