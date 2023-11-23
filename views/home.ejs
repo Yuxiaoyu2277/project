@@ -12,6 +12,20 @@
         body {
             background-color: #f5f5dc;
             font-family: 'Roboto', sans-serif;
+            position: relative;
+        }
+
+
+
+        #currentTime {
+            position: fixed;
+            top: 70px;
+            left: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .container {
@@ -109,6 +123,13 @@
 </head>
 
 <body>
+    <div id="currentTime">
+        <h3>Current Time:</h3>
+        <p>
+            <%= currentTimehome %>
+        </p>
+    </div>
+
     <div class="container">
         <div class="logout-section">
             <% if (username) { %>

@@ -4,6 +4,7 @@ const session = require('express-session');
 const User = require('./models/User'); 
 const Book = require('./models/book');
 const app = express();
+const moment = require('moment-timezone');
 
 
 
@@ -19,7 +20,10 @@ app.use(session({ secret: 'your secret key', resave: false, saveUninitialized: f
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.render('login', { message: null });
+    const currentTime = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+
+    res.render('login', { message: null, currentTime });
+
 });
 
 app.post('/register', async (req, res) => {
@@ -45,8 +49,9 @@ app.post('/login', async (req, res) => {
             return res.render('login', { message: 'User not found', messageType: 'error' });
         }
         if (password === user.password) {
+            const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
             req.session.username = user.username;
-            res.render('home', { username: user.username, books: [] });
+            res.render('home', { username: user.username, books: [], currentTimehome });
         } else {
             res.render('login', { message: 'Invalid username or password', messageType: 'error' });
         }
@@ -57,12 +62,16 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/home', (req, res) => {
+    const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+
     if (req.session.username) {
-        res.render('home', { username: req.session.username, books: [] });
+        res.render('home', { username: req.session.username, books: [], currentTimehome });
     } else {
         res.redirect('/login');
     }
 });
+
+
 
 app.get('/search-book', async (req, res) => {
     try {
@@ -115,6 +124,9 @@ app.post('/add-book', async (req, res) => {
         });
     }
 });
+
+
+
 
 app.post('/delete-book/:id', async (req, res) => {
     try {
