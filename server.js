@@ -105,22 +105,15 @@ app.post('/add-book', async (req, res) => {
                 currentTimehome
             });
         }
-        const existingBook = await Book.findOne({ id });
-        if (existingBook) {
-            const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
-            return res.render('home', {
-                username: req.session.username,
-                books: [],
-                message: 'Book ID already exists.',
-                currentTimehome
-            });
-        }
+        const newBook = new Book({ id, name, author });
+        await newBook.save();  // 保存到数据库
+
+        const books = await Book.find({});  // 查询更新后的书籍列表
         const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
-        const books = await Book.find({}); // 假设这是你的查询逻辑
         res.render('home', {
             username: req.session.username,
             books: books,
-            currentTimehome // 确保添加了这一行
+            currentTimehome
         });
     } catch (error) {
         console.error(error);
@@ -132,8 +125,8 @@ app.post('/add-book', async (req, res) => {
             currentTimehome
         });
     }
-    
 });
+
 
 
 
