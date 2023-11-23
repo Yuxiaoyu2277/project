@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const User = require('./models/User'); 
+const User = require('./models/User');
 const Book = require('./models/book');
 const app = express();
 const moment = require('moment-timezone');
@@ -31,14 +31,17 @@ app.post('/register', async (req, res) => {
         const { username, password } = req.body;
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.render('login', { message: 'User already exists', messageType: 'error' });
+            const currentTime = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+            return res.render('login', { message: 'User already exists', messageType: 'error', currentTime });
         }
         const newUser = new User({ username, password });
         await newUser.save();
-        res.render('login', { message: 'User registered successfully', messageType: 'register' });
+        const currentTime = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+        res.render('login', { message: 'User registered successfully', messageType: 'register', currentTime });
     } catch (error) {
         console.error(error);
-        res.render('login', { message: 'Error occurred during registration', messageType: 'error' });
+        const currentTime = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+        res.render('login', { message: 'Error occurred during registration', messageType: 'error', currentTime });
     }
 });
 app.post('/login', async (req, res) => {
@@ -77,12 +80,12 @@ app.get('/search-book', async (req, res) => {
     try {
         const { bookId, bookName, author } = req.query;
         let query = {};
-        
         if (bookId) query.id = bookId;
         if (bookName) query.name = bookName;
         if (author) query.author = author;
-        const books = await Book.find(query);
-        res.render('home', { username: req.session.username, books: books });
+        const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+        const books = await Book.find(query); // 假设这是你的查询逻辑
+        res.render('home', { username: req.session.username, books: books, currentTimehome });
     } catch (error) {
         console.error(error);
         res.render('home', { username: req.session.username, books: [] });
@@ -94,33 +97,37 @@ app.post('/add-book', async (req, res) => {
     try {
         const { id, name, author } = req.body;
         if (!id) {
-            return res.render('home', { 
-                username: req.session.username, 
+            const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+            return res.render('home', {
+                username: req.session.username,
                 books: [],
-                message: 'Book ID is required.'
+                message: 'Book ID is required.',
+                currentTimehome
             });
         }
         const existingBook = await Book.findOne({ id });
         if (existingBook) {
-            return res.render('home', { 
-                username: req.session.username, 
-                books: [], 
-                message: 'Book ID already exists.' 
+            const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+            return res.render('home', {
+                username: req.session.username,
+                books: [],
+                message: 'Book ID already exists.',
+                currentTimehome
             });
         }
-        const newBook = new Book({ id, name, author });
-        await newBook.save();
-        const books = await Book.find({});
-        res.render('home', { 
-            username: req.session.username, 
-            books: books 
+        const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
+        const books = await Book.find({}); // 假设这是你的查询逻辑
+        res.render('home', {
+            username: req.session.username,
+            books: books,
+            currentTimehome // 确保添加了这一行
         });
     } catch (error) {
         console.error(error);
-        res.render('home', { 
-            username: req.session.username, 
-            books: [], 
-            message: 'Error occurred during book addition.' 
+        res.render('home', {
+            username: req.session.username,
+            books: [],
+            message: 'Error occurred during book addition.'
         });
     }
 });
@@ -130,9 +137,10 @@ app.post('/add-book', async (req, res) => {
 
 app.post('/delete-book/:id', async (req, res) => {
     try {
+        const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
         await Book.deleteOne({ id: req.params.id });
         const books = await Book.find({});
-        res.render('home', { username: req.session.username, books: books });
+        res.render('home', { username: req.session.username, books: books, currentTimehome });
     } catch (error) {
         console.error(error);
         res.render('home', { username: req.session.username, books: [] });
@@ -144,10 +152,11 @@ app.post('/update-book/:id', async (req, res) => {
     try {
         const bookId = req.params.id;
         const { name, author } = req.body;
+        const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
         await Book.updateOne({ id: bookId }, { name, author });
 
         const books = await Book.find({});
-        res.render('home', { username: req.session.username, books: books });
+        res.render('home', { username: req.session.username, books: books, currentTimehome });
     } catch (error) {
         console.error(error);
         res.render('home', { username: req.session.username, books: [] });
@@ -174,13 +183,13 @@ app.get('/api/books', async (req, res) => {
 });
 app.put('/api/books/:id', async (req, res) => {
     try {
-        const bookId = req.params.id; 
+        const bookId = req.params.id;
         const updatedBook = await Book.findOneAndUpdate({ id: bookId }, req.body, { new: true });
-        
+
         if (!updatedBook) {
             return res.status(404).json({ message: "Books cannot find" });
         }
-        
+
         res.json(updatedBook);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -203,9 +212,9 @@ app.post('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
             console.error(err);
-           
+
         } else {
-            res.redirect('/'); 
+            res.redirect('/');
         }
     });
 });
