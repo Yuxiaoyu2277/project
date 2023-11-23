@@ -124,12 +124,15 @@ app.post('/add-book', async (req, res) => {
         });
     } catch (error) {
         console.error(error);
+        const currentTimehome = moment().tz('Asia/Shanghai').format('YYYY-MM-DD HH:mm:ss');
         res.render('home', {
             username: req.session.username,
             books: [],
-            message: 'Error occurred during book addition.'
+            message: 'Error occurred during book addition.',
+            currentTimehome
         });
     }
+    
 });
 
 
