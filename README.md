@@ -9,6 +9,11 @@ Wong Chun Lung (13246191)
 Application link: (https://s381f-project-group85-library-books.onrender.com/)
 This link is for using Render's hosting service, which allows the server to run 24 hours a day.
 
+For npm commad,
+-npm install express mongoose ejs bcryptjs express-session moment-timezone
+then 
+-npm start
+If you're trying to run it locally, the URL is http://localhost:3000/
 ********************************************
 # login Interface function
 When you enter the URL, you will be redirected to the default page, which contains two functions, namely register and login.
@@ -130,3 +135,8 @@ curl -X GET https://s381f-project-group85-library-books.onrender.com/api/books
 curl -X PUT -H "Content-Type: application/json" --data '{"name":"Updated Book Title", "author":"Updated Author Name"}' https://s381f-project-group85-library-books.onrender.com/api/books/001
 
 curl -X DELETE https://s381f-project-group85-library-books.onrender.com/api/books/001
+
+
+If you're trying to run it locally, the URL is http://localhost:3000/ ,you need to change.Example
+
+curl -X GET http://localhost:3000/api/books
